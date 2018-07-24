@@ -1,5 +1,5 @@
 # csc413-SecondGame
 
-## Student Name :
-## Student ID :
+## Student Name :Giovanni Rosas-Marin
+## Student ID :916106144
 
