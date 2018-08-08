@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Game extends JPanel implements ActionListener, Runnable{
+    public static boolean power = false;
     private BufferedImage spriteSheet = null; //tank.png spritesheet
     private BufferedImage background = null;// background of the window
     protected static boolean isRunning = false;
@@ -188,13 +189,32 @@ public void init() {
             g.drawString ( " Enter to Restart " ,290,350);
 
         }
-//to remove lives
+        g.setColor ( Color.GREEN );
+        g.setFont ( new Font ( "Arial",Font.BOLD,12));
+        g.drawString ( "Bust:",550,20);
+
+
+
+
+        if(power){
+            g.setColor ( Color.GREEN );
+            g.setFont ( new Font ( "Arial",Font.ITALIC,12));
+            g.drawString ( "Active",585,20);
+
+            g.setColor ( Color.YELLOW );
+            g.setFont ( new Font ( "Arial",Font.ITALIC,10));
+            g.drawString ( " Bust Activates at 20, 95 and 125 points ",200,20);
+        }
+//to remove lives  when I try to put power to false when a live is lost I makes a glitch
         if (lives == 3) {
             LifeCount -= 10;
+//            power =false;
         } else if (lives == 2) {
             LifeCount2 -= 10;
+//            power = false;
         } else if (lives == 1) {
             LifeCount3 -= 10;
+//            power = false;
         }
 
 //Lives drawn above like a little semaforo mario Kart?? lol
@@ -235,8 +255,8 @@ public void init() {
                 int fourth = playerPos + 100;
 
                 if (ballPos < first){
-                    ball.setbYdir ( -1 );
-                    ball.setbXdir ( -2 );
+                    ball.setbYdir ( -2 );
+                    ball.setbXdir ( -1 );
                 }
                 if (ballPos >= first && ballPos < second){
                     ball.setbYdir ( -2 * ball.getbYdir () );
@@ -257,6 +277,7 @@ public void init() {
 
             }
 
+
            bbCollision ();
 
             ball.bX += ball.bXdir;
@@ -273,6 +294,9 @@ public void init() {
                 lives ++;
 
             }
+
+            //Small bust up for player
+            power = score >= 20 && score <= 45 || score >= 95 && score <= 115 || score >= 125 && score <= 145;
         }
         repaint();
 

@@ -28,13 +28,18 @@ public class player  {
 
         if (this.LeftPressed)
         {
+            if(Game.power ==true){
+                x-=20;
+            }else
           x-=10;
 
         }
         if (this.RightPressed)
         {
-          x+=10;
-
+            if(Game.power ==true){
+                x+=20;
+            }else
+                x+=10;
         }
 
 //border collision of player with the window
