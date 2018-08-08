@@ -226,7 +226,34 @@ public void init() {
 
                 //collisionBall                  //bar collision
             if(ball.getBounds ().intersects ( player.getBounds ())){
-                ball.bYdir = -ball.bYdir;
+                int playerPos=(int)player.getBounds ().getMinX ();
+                int ballPos= (int)ball.getBounds ().getMinX ();
+                //It devides the player in four depending where the ball collides it will move differently
+                int first = playerPos + 25;
+                int second = playerPos + 50;
+                int third = playerPos + 75;
+                int fourth = playerPos + 100;
+
+                if (ballPos < first){
+                    ball.setbYdir ( -1 );
+                    ball.setbXdir ( -2 );
+                }
+                if (ballPos >= first && ballPos < second){
+                    ball.setbYdir ( -2 * ball.getbYdir () );
+                    ball.setbXdir ( -1 );
+                }
+                if (ballPos >= second && ballPos < third){
+                    ball.setbYdir ( -2 );
+                    ball.setbXdir ( 0);
+                }
+                if (ballPos >= third && ballPos < fourth){
+                    ball.setbYdir ( -2 * ball.getbYdir () );
+                    ball.setbXdir ( 1 );
+                }
+                if (ballPos > first){
+                    ball.setbYdir ( -2 );
+                    ball.setbXdir ( 1 );
+                }
 
             }
 
@@ -242,7 +269,7 @@ public void init() {
             } if(ball.bX >=670){
                 ball.bXdir = -ball.bXdir;
             }
-            if(ball.bY >=570) { //to remove lives
+            if(ball.bY ==570) { //to remove lives
                 lives ++;
 
             }
