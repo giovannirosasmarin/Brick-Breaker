@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Game extends JPanel implements ActionListener, Runnable{
     public static boolean power = false;
+    public static boolean power2 = false;
     private BufferedImage spriteSheet = null; //tank.png spritesheet
     private BufferedImage background = null;// background of the window
     protected static boolean isRunning = false;
@@ -21,14 +22,13 @@ public class Game extends JPanel implements ActionListener, Runnable{
     protected static int LifeCount3 =10;
     private static Thread thread;
     private Timer timer;
-    private int delay=8;
     protected static player player; //player bar
     protected static Ball ball;
     protected static Map map;
 
 
 //init()
-public void init() {
+private void init() {
      requestFocus ( );
 
      JFrame jf = new JFrame ( );
@@ -53,16 +53,17 @@ public void init() {
 
     setFocusable ( true );
     setFocusTraversalKeysEnabled ( false );
+    int delay = 8;
     timer = new Timer ( delay, this );
     timer.start ( );
 
     jf.setBounds ( 10, 10, 700, 600 );
     jf.setResizable ( false );
-    jf.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
+    jf.setDefaultCloseOperation ( WindowConstants.EXIT_ON_CLOSE );
     jf.setVisible ( true );
 }
 
-    public synchronized void start()
+    private synchronized void start()
     {
         if(Running) //if running its true it will get out of the method
             return;
@@ -73,7 +74,7 @@ public void init() {
     }
 
     //not needed has much
-    public synchronized void stop()
+    private synchronized void stop()
     {
         if(!Running) //if running its false it will get out of the method
             return;
@@ -153,8 +154,8 @@ public void init() {
 
         if(levelNum ==3){
             isRunning = false;
-            ball.setbYdir (0);
-            ball.setbXdir ( 0 );
+            ball.setVy (0);
+            ball.setVx ( 0 );
             g.setColor ( Color.RED );
             g.setFont ( new Font ( "Arial",Font.BOLD,30));
             g.drawString ( "YOU WON, Score: " + score,200,300);
@@ -164,8 +165,8 @@ public void init() {
         if(level <=0){
 
             isRunning = false;
-            ball.setbYdir (0);
-            ball.setbXdir ( 0 );
+            ball.setVy (0);
+            ball.setVx ( 0 );
             g.setColor ( Color.RED );
             g.setFont ( new Font ( "Arial", Font.BOLD, 30 ) );
             g.drawString ( "Next Level, Score: " + score, 190, 300 );
@@ -177,10 +178,10 @@ public void init() {
         }
 
 // shows up each time you lose a live or when game over all lives are over
-        if(ball.getbY () >=570){
+        if(ball.getBy () >=570){
             isRunning = false;
-            ball.setbYdir (0);
-            ball.setbXdir ( 0 );
+            ball.setVy (0);
+            ball.setVx ( 0 );
             g.setColor ( Color.GREEN );
             g.setFont ( new Font ( "Arial",Font.BOLD,40));
             g.drawString ( "Game Over/Lost Live",200,300);
@@ -203,7 +204,21 @@ public void init() {
 
             g.setColor ( Color.YELLOW );
             g.setFont ( new Font ( "Arial",Font.ITALIC,10));
-            g.drawString ( " Bust Activates at 20, 95 and 125 points ",200,20);
+            g.drawString ( " Bust Activates at 20, 165 and 320 points ",200,20);
+        }
+
+        g.setColor ( Color.GREEN );
+        g.setFont ( new Font ( "Arial",Font.BOLD,12));
+        g.drawString ( "Mini:",450,20);
+
+        if(power2){
+            g.setColor ( Color.GREEN );
+            g.setFont ( new Font ( "Arial",Font.ITALIC,12));
+            g.drawString ( "Active",480,20);
+
+//            g.setColor ( Color.YELLOW );
+//            g.setFont ( new Font ( "Arial",Font.ITALIC,10));
+//            g.drawString ( " Bust Activates at 5, 20 and 27 points ",200,20);
         }
 //to remove lives  when I try to put power to false when a live is lost I makes a glitch
         if (lives == 3) {
@@ -255,24 +270,24 @@ public void init() {
                 int fourth = playerPos + 100;
 
                 if (ballPos < first){
-                    ball.setbYdir ( -2 );
-                    ball.setbXdir ( -1 );
+                    ball.setVy ( -2 );
+                    ball.setVx ( -1 );
                 }
                 if (ballPos >= first && ballPos < second){
-                    ball.setbYdir ( -2 * ball.getbYdir () );
-                    ball.setbXdir ( -1 );
+                    ball.setVy ( -2 * ball.getVy () );
+                    ball.setVx ( -1 );
                 }
                 if (ballPos >= second && ballPos < third){
-                    ball.setbYdir ( -2 );
-                    ball.setbXdir ( 0);
+                    ball.setVy ( -2 );
+                    ball.setVx ( 0);
                 }
                 if (ballPos >= third && ballPos < fourth){
-                    ball.setbYdir ( -2 * ball.getbYdir () );
-                    ball.setbXdir ( 1 );
+                    ball.setVy ( -2 * ball.getVy () );
+                    ball.setVx ( 1 );
                 }
                 if (ballPos > first){
-                    ball.setbYdir ( -2 );
-                    ball.setbXdir ( 1 );
+                    ball.setVy ( -2 );
+                    ball.setVx ( 1 );
                 }
 
             }
@@ -280,23 +295,31 @@ public void init() {
 
            bbCollision ();
 
-            ball.bX += ball.bXdir;
-            ball.bY += ball.bYdir;
-            if(ball.bX <=0){
-                ball.bXdir = -ball.bXdir;
+            ball.bx += ball.vx;
+            ball.by += ball.vy;
+            if(ball.bx <=0){
+                ball.vx = -ball.vx;
             }
-            if(ball.bY <=0){
-                ball.bYdir = -ball.bYdir;
-            } if(ball.bX >=670){
-                ball.bXdir = -ball.bXdir;
+            if(ball.by <=0){
+                ball.vy = -ball.vy;
+            } if(ball.bx >=670){
+                ball.vx = -ball.vx;
             }
-            if(ball.bY ==570) { //to remove lives
+            if(ball.by ==570) { //to remove lives
                 lives ++;
 
             }
 
             //Small bust up for player
-            power = score >= 20 && score <= 45 || score >= 95 && score <= 115 || score >= 125 && score <= 145;
+            power = score >= 20 && score <= 45 || score >= 165 && score <= 185 || score >= 320 && score <= 335;
+
+
+            power2 = level >= 5 && level <= 6 || level >= 20 && level <= 22|| level >= 27 && level<= 29;
+            if(power2){
+                player.pWidth = 50;
+            }else{
+                player.pWidth =100;
+            }
         }
         repaint();
 
@@ -304,8 +327,6 @@ public void init() {
 
     public static void main(String[] args )
     {
-
-
         Game bo = new Game ();
         bo.init ();
         bo.start ();
@@ -317,7 +338,7 @@ public void init() {
     }
 
     //bb = ball/brick collision
-    public void bbCollision(){
+    private void bbCollision(){
 
         //collision ball with bricks
         loop: for(int i=0; i< map.map.length;i++)
@@ -331,22 +352,20 @@ public void init() {
                             int brickWidth = map.brickWidth;
                             int brickHeight = map.brickHeight;
 
-                            Rectangle rect = new Rectangle ( brickX,brickY,brickWidth,brickHeight );
+                         Rectangle brickgetBounds = new Rectangle ( brickX,brickY,brickWidth,brickHeight );
 
-                            Rectangle brickRect = rect;
-
-                            if(ball.getBounds ().intersects ( brickRect ))
+                            if(ball.getBounds ().intersects ( brickgetBounds ))
                             {
                                     map.setBrickValue ( 0,i,j );
                                     level--;
                                     score +=5;
 
-                                    if(ball.bX + 19 <= brickRect.x || ball.bX +1 >= brickRect.x +brickRect.width)
+                                    if(ball.bx + 19 <= brickgetBounds.x || ball.bx +1 >= brickgetBounds.x +brickgetBounds.width)
                                     {
-                                             ball.bXdir =-ball.bXdir;
+                                             ball.vx =-ball.vx;
 
                                     }else{
-                                        ball.bYdir = -ball.bYdir;
+                                        ball.vy = -ball.vy;
                                      }
                                     break loop;// will break the entire loop only goes in when ball intersects brick
                             }

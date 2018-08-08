@@ -10,6 +10,7 @@ public class player  {
     private BufferedImage bar;
     private boolean RightPressed;
     private boolean LeftPressed;
+    protected int pWidth =100;
 
 
     public player(double x, double y,  Game game)
@@ -28,7 +29,7 @@ public class player  {
 
         if (this.LeftPressed)
         {
-            if(Game.power ==true){
+            if(Game.power){
                 x-=20;
             }else
           x-=10;
@@ -36,7 +37,7 @@ public class player  {
         }
         if (this.RightPressed)
         {
-            if(Game.power ==true){
+            if(Game.power){
                 x+=20;
             }else
                 x+=10;
@@ -50,7 +51,7 @@ public class player  {
 
     }
     public Rectangle getBounds() {
-        return new Rectangle ((int)x,550,100,8);
+        return new Rectangle ((int)x,550,pWidth,8);
     }
 
 
@@ -59,7 +60,7 @@ public class player  {
     {
 
         g.setColor(Color.green);
-        g.fillRect ( (int )x,(int)y,100, 8);
+        g.fillRect ( (int )x,(int)y,pWidth, 8);
         Graphics2D g2d= (Graphics2D)g;
 //        ((Graphics2D) g).drawImage ( bar,(int)x,(int)y,null );
 

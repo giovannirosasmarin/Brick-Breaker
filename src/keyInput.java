@@ -4,8 +4,8 @@ import java.awt.event.KeyListener;
 
 public class keyInput implements KeyListener {
 
-    Game game;
-    public keyInput(Game game){
+    private Game game;
+    keyInput(Game game){
         this.game = game;
     }
 
@@ -50,10 +50,10 @@ public class keyInput implements KeyListener {
         if(e.getKeyCode () ==KeyEvent.VK_3){
 
             if(Game.level==0){
-                Game.ball.setbX ( 250 );
-                Game.ball.setbY ( 350 );
-                Game.ball.setbXdir(-1);
-                Game.ball.setbYdir(-2);
+                Game.ball.setBx ( 250 );
+                Game.ball.setBy ( 350 );
+                Game.ball.setVx (-1);
+                Game.ball.setVy (-2);
                 Game.player.getX ();
                 Game.levelNum ++;
                 // this 4 lines of code down restarts the game
@@ -67,10 +67,10 @@ public class keyInput implements KeyListener {
         //level 2
         if(e.getKeyCode () ==KeyEvent.VK_2){
             if(Game.level==0){
-                Game.ball.setbX ( 250 );
-                Game.ball.setbY ( 350 );
-                Game.ball.setbXdir(-1);
-                Game.ball.setbYdir(-2);
+                Game.ball.setBx ( 250 );
+                Game.ball.setBy ( 350 );
+                Game.ball.setVx (-1);
+                Game.ball.setVy (-2);
                 Game.player.getX ();
                 Game.levelNum ++;
                 // this 4 lines of code down restarts the game
@@ -87,10 +87,10 @@ public class keyInput implements KeyListener {
         if(e.getKeyCode () ==KeyEvent.VK_ENTER){
             //if the lives are over the game is over and it will restart lives and to first level
             if(Game.lives==3){
-                Game.ball.setbX ( 250 );
-                Game.ball.setbY ( 350 );
-                Game.ball.setbXdir(-1);
-                Game.ball.setbYdir(-2);
+                Game.ball.setBx ( 250 );
+                Game.ball.setBy ( 350 );
+                Game.ball.setVx (-1);
+                Game.ball.setVy (-2);
                 Game.player.getX ();
                 Game.LifeCount =10;
                 Game.LifeCount2 =10;
@@ -99,6 +99,7 @@ public class keyInput implements KeyListener {
                 // this 4 lines of code down restarts all the game
                 Game.score =0;
                 Game.level =15;
+                Game.levelNum = 0;
                 Game.map = new Map ( 3,5 );
                 game.repaint ();
 
@@ -106,10 +107,10 @@ public class keyInput implements KeyListener {
 
             if(!Game.isRunning){
                 //this is for the lives it will restart where you left only three chances
-                Game. ball.setbX ( 250 );
-                Game.ball.setbY ( 350 );
-                Game.ball.setbXdir(-1);
-                Game.ball.setbYdir(-2);
+                Game. ball.setBx ( 250 );
+                Game.ball.setBy ( 350 );
+                Game.ball.setVx (-1);
+                Game.ball.setVy (-2);
                 Game.player.getX ();
                 game.repaint ();
 

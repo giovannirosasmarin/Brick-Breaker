@@ -2,11 +2,11 @@ import java.awt.*;
 
 public class Map {
 
-    public int map[][];
-    public int brickWidth;
-    public int brickHeight;
+    protected int map[][];
+    protected int brickWidth;
+    protected int brickHeight;
 
-    public Map(int row, int col){
+    Map(int row, int col){
 
         map = new int[row][col];
         for(int i=0; i < map.length; i++){
